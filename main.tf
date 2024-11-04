@@ -1,6 +1,6 @@
 # Configure AWS provider
 provider "aws" {
-  region = "eu-east-2"  # Chosen as it's the geographically closest region to me
+  region = "eu-west-2"  # Chosen as it's the geographically closest region to me
 }
 
 # Get the default VPC data
