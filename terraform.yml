@@ -28,11 +28,11 @@ jobs:
         terraform_version: 1.5.7 
         terraform_wrapper: false 
 
+    - name: Terraform Format
+      run: terraform fmt --recursive
+
     - name: Terraform Init
       run: terraform init
-      
-    - name: Terraform Format
-      run: terraform fmt -check
       
     - name: Terraform Validate
       run: terraform validate
