@@ -1,20 +1,20 @@
-# Configure AWS provider
+# Configures AWS provider
 provider "aws" {
-  region = "eu-west-2"  # Chosen as it's the geographically closest region to me
+  region = "eu-west-2" # Chosen as it's the geographically closest region to me
 }
 
-# Get the default VPC data
+# Gets the default VPC data
 data "aws_vpc" "default" {
   default = true
 }
 
-# Creates a security group
+# Creates an SG
 resource "aws_security_group" "web" {
   name        = "web-server-sg"
   description = "Security group for web server"
   vpc_id      = data.aws_vpc.default.id
 
-  # Allows incoming HTTP traffic
+  # Allows for incoming HTTP traffic
   ingress {
     from_port   = 80
     to_port     = 80
@@ -22,7 +22,7 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Allow outbound traffic
+  # Allow for outbound traffic
   egress {
     from_port   = 0
     to_port     = 0
@@ -48,9 +48,8 @@ data "aws_ami" "amazon_linux_2" {
 
 # Creates the actual EC2 instance
 resource "aws_instance" "web" {
-  ami           = data.aws_ami.amazon_linux_2.id
-  instance_type = "t2.micro"
-
+  ami                    = data.aws_ami.amazon_linux_2.id
+  instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web.id]
 
   user_data = <<-EOF
@@ -69,5 +68,5 @@ resource "aws_instance" "web" {
 
 # Outputs the public IP address
 output "public_ip" {
-value = aws_instance.web.public_ip
+  value = aws_instance.web.public_ip
 }
